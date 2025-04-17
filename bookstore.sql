@@ -73,7 +73,7 @@ CREATE TABLE address (
 -- Stores the status of an address (old or current)
 CREATE TABLE address_status (
     address_status_id INT AUTO_INCREMENT PRIMARY KEY,
-    status_name VARCHAR(50) NOT NULL
+    status_name ENUM('old', 'current')
 );
 
 -- Table: customer
@@ -107,10 +107,10 @@ CREATE TABLE shipping_method (
 );
 
 -- Table: order_status
--- Stores the possible states of an order (pending or shipped)
+-- Stores the possible states of an order (pending, shipped or delivered)
 CREATE TABLE order_status (
     status_id INT AUTO_INCREMENT PRIMARY KEY,
-    status_name VARCHAR(50)
+    status_name ENUM('pending', 'shipped', 'delivered')
 );
 
 -- Table: cust_order
@@ -148,6 +148,7 @@ CREATE TABLE order_history (
     history_id INT AUTO_INCREMENT PRIMARY KEY,
     order_id INT,
     status_id INT,
+    order_history_status ENUM('ordered', 'cancelled', 'delivered'),
     status_date DATETIME,
     FOREIGN KEY (order_id) REFERENCES cust_order(order_id),
     FOREIGN KEY (status_id) REFERENCES order_status(status_id)
